@@ -66,7 +66,7 @@ def test_write_with_empty_list_does_not_create_table(spark, bronze_path) -> None
     written = writer.write([])
 
     assert written == 0
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017
         spark.read.format("delta").load(bronze_path)
 
 

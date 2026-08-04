@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import date
+from datetime import date, datetime, timezone
 
 from pyspark.sql import DataFrame, SparkSession
 
@@ -51,7 +51,7 @@ class BronzeWriter:
             logger.info("nessuna offerta da scrivere, skip")
             return 0
 
-        run_date = ingestion_date or date.today()
+        run_date = ingestion_date or datetime.now(timezone.utc).date()
         df = self._to_dataframe(postings, run_date).cache()
         row_count = df.count()
 
