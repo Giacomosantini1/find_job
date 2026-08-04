@@ -70,9 +70,9 @@ def test_greenhouse_connector_raises_on_non_retryable_error() -> None:
     connector = GreenhouseConnector()
     error_response = _mock_response({"error": "not found"}, status_code=404)
 
-    with patch.object(connector.session, "get", return_value=error_response):
-        with pytest.raises(RuntimeError, match="non-retryable"):
-            connector.fetch("unknown-co")
+    with patch.object(connector.session, "get", return_value=error_response), \
+         pytest.raises(RuntimeError, match="non-retryable"):
+        connector.fetch("unknown-co")
 
 
 def test_greenhouse_connector_retries_on_server_error_then_succeeds() -> None:
